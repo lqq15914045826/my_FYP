@@ -1,3 +1,4 @@
+settings.json
 *.whl
 *checkpoints*/
 *logs*/
