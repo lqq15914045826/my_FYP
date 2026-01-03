@@ -17,7 +17,7 @@ csi4 = np.abs(csi4)
 csi5 = np.abs(csi5)
 
 # Process labels
-label1 = np.concatenate((label[0:1250], label[1250:1500] - 128))
+label1 = np.concatenate((label[0:1250], label[1250:1500] - 128)) #左闭右开，标签重映射,原始 MATLAB 标注方式的遗留问题
 label2 = np.concatenate((label[1500:2750], label[2750:3000] - 128))
 label3 = np.concatenate((label[3000:4250], label[4250:4500] - 128))
 label4 = np.concatenate((label[4500:5750], label[5750:6000] - 128))

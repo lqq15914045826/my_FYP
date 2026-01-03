@@ -12,7 +12,7 @@ from Dataset import CSIDataset
 
 def main(args):
     cycle_source_all_csi = np.load(os.path.join(args.dataset_dir, 'cycle_source_all_csi.npy'))
-    # repeat 5 times with 0.01% noise to generate more synthetic data
+    # repeat 5 times with 0.01% noise to generate more synthetic data 用极小高斯噪声扩增5倍
     csi_std = cycle_source_all_csi.std()
     csi_list = []
     csi_list.append(cycle_source_all_csi)
@@ -25,6 +25,7 @@ def main(args):
     print(cycle_source_all_csi.shape)
     cycle_target_all_syn_csi = np.zeros_like(cycle_source_all_csi)
     cycle_source_all_label = np.load(os.path.join(args.dataset_dir, 'cycle_source_all_label.npy'))
+    
     label_list = []
     for i in range(5):
         label_list.append(cycle_source_all_label)
