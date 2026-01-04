@@ -51,7 +51,7 @@ def main(args):
         'cycle_source_all_csi', 'cycle_source_all_label', args.normalize_csi)
     target_all_dataset = CSIDataset(args.dataset_dir, \
         'cycle_target_all_csi', 'cycle_target_all_label', args.normalize_csi)
-    cycle_dataset = CycleDataset(source_dataset, target_dataset)
+    cycle_dataset = CycleDataset(source_dataset, target_dataset) #送进网络的数据 一对sourceCSI一对targetCSI
     cycle_all_dataset = CycleDataset(source_all_dataset, target_all_dataset)
     cycle_loader = DataLoader(cycle_dataset, batch_size=args.batch_size, shuffle=True)
     cycle_all_loader = DataLoader(cycle_all_dataset, batch_size=args.batch_size, shuffle=False)
@@ -59,7 +59,7 @@ def main(args):
     # set up device and model
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     # cycleGAN model
-    model = CycleGANModel(args, device)
+    model = CycleGANModel(args, device) #现在这是空模型
     image_pool = ImagePool(args.max_size)
     
     # loss functions
@@ -81,7 +81,7 @@ def main(args):
     for epoch in range(args.epochs):
         model.train()
         for batch_idx, batch_data in enumerate(cycle_loader):
-            source_csi, source_label, target_csi, target_label = batch_data
+            source_csi, source_label, target_csi, target_label = batch_data #每个batch的输出
             source_csi, source_label, target_csi, target_label = \
                 source_csi.to(device), source_label.to(device), target_csi.to(device), target_label.to(device)
             
