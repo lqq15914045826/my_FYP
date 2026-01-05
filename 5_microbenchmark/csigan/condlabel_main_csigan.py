@@ -131,7 +131,7 @@ def train(args, labeled_dataset, unlabeled_real_dataset, unlabeled_syn_dataset, 
                 logits_u_w_real, logits_u_s_real = logits[2*cur_bs:2*cur_bs+2*cur_bs_real].chunk(2)
                 logits_u_w_syn, logits_u_s_syn = logits[2*cur_bs+2*cur_bs_real:].chunk(2)
                 pseudo_label_real = torch.softmax(logits_u_w_real.detach()/args.T, dim=-1)
-                max_probs_real, targets_u_real = torch.max(pseudo_label_real, dim=-1)
+                max_probs_real, targets_u_real = torch.max(pseudo_label_real, dim=-1)#选最大概率作为伪标签
                 mask_real = max_probs_real.ge(args.threshold).float()
                 targets_unlabeled_syn = targets_unlabeled_syn.to(device)
                 L_fix = (F.cross_entropy(logits_u_s_real, targets_u_real, reduction='none') * mask_real).mean()

@@ -11,6 +11,7 @@ from cyclegan_model import CycleGANModel
 from Dataset import CSIDataset
 
 def main(args):
+    os.makedirs(args.syn_dataset_dir, exist_ok=True) #自己的小改动，在开始时就创建输出目录。而不是先保存再创建
     cycle_source_all_csi = np.load(os.path.join(args.dataset_dir, 'cycle_source_all_csi.npy'))
     # repeat 5 times with 0.01% noise to generate more synthetic data 用极小高斯噪声扩增5倍
     csi_std = cycle_source_all_csi.std()
@@ -57,7 +58,7 @@ def main(args):
         cycle_target_all_syn_csi[i*args.batch_size:i*args.batch_size+cur_batch_size] = \
             tgt_csi_data
     
-    os.makedirs(args.syn_dataset_dir, exist_ok=True)
+    
     np.save(os.path.join(args.syn_dataset_dir, 'cycle_target_all_syn_csi.npy'), cycle_target_all_syn_csi)
     np.save(os.path.join(args.syn_dataset_dir, 'cycle_target_all_syn_label.npy'), cycle_target_all_syn_label)
     
