@@ -34,14 +34,17 @@ for method_dir in method_dirs:
     ckpt_root_dir = os.path.join(
         baseline_dir, method_dir, f"{method_name}_onlyreal_checkpoints"
     )
-    ckpt_dirs = os.listdir(ckpt_root_dir)
+    ckpt_dirs = os.listdir(
+        ckpt_root_dir
+    )  # each dir is a different random seed获取所有子目录
     onlyreal_acc_list = []
     for ckpt_dir in ckpt_dirs:
         model_ckpts = [
             f
             for f in os.listdir(os.path.join(ckpt_root_dir, ckpt_dir))
             if f.endswith(".pth")
-        ]
+        ]  # get all model checkpoints
+        # get the best accuracy from all checkpoints
         if method_name == "csigan":
             best_acc = max([float(f.split("_")[1][:-4]) for f in model_ckpts])
         else:
