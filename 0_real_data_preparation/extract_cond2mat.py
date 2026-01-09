@@ -212,7 +212,12 @@ def process_file(cur_date, cur_roomid, cur_user, cur_dat_file):
     
     # Assume csi_get_all is a defined function that returns a tuple
     cfr_array, _ = csi_get_all(cur_dat_path)
-    
+    #原始.dat文件名格式：userX-YYY-ZZZ-WWW-R.dat
+    #X: user编号 YYY: mid_cond1 ZZZ: mid_cond2 WWW
+    #: mid_cond3 R: rx_cond
+    #最终cond_list格式：[roomid, mid_cond1, mid_cond2, mid_cond3, rx_cond, userid]
+    #复数 CSI CFR（shape: [T, 90]）
+
     cond_list = [cur_roomid]
     fname_list = cur_dat_file.split('-')
     mid_conds = [int(c) for c in fname_list[1:4]]
@@ -235,6 +240,7 @@ def process_file(cur_date, cur_roomid, cur_user, cur_dat_file):
     dst_path = os.path.join(cur_dst_dir, cur_dat_file.split('.')[0] + '.mat')
     savemat(dst_path, data)
 
+
 def process_user(cur_date, cur_roomid, cur_user):
     cur_user_dir = os.path.join(root_dir, cur_date, cur_user)
     cur_dat_files = os.listdir(cur_user_dir)
@@ -255,7 +261,7 @@ def main():
                 futures.append(executor.submit(process_user, cur_date, cur_roomid, cur_user))
         for future in as_completed(futures):
             future.result()
-
+        # 按日期按用户并行处理所有.dat文件
 if __name__ == "__main__":
     main()
 
