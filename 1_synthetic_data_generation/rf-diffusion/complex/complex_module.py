@@ -10,9 +10,11 @@ def apply_complex(F_r, F_i, X):
     X_r, X_i = [x.squeeze(dim=-1) for x in torch.split(X, 1, dim=-1)]
     return torch.stack((F_r(X_r) - F_i(X_i), F_r(X_i) + F_i(X_r)), dim=-1)
 
+
 def apply_complex_sep(F_r, F_i, X):
     X_r, X_i = [x.squeeze(dim=-1) for x in torch.split(X, 1, dim=-1)]
     return torch.stack((F_r(X_r), F_i(X_i)), dim=-1)
+
 
 @torch.jit.script
 def complex_mul(X, Y):
@@ -22,6 +24,7 @@ def complex_mul(X, Y):
     Z_i = torch.mul(X_r, Y_i) + torch.mul(X_i, Y_r)
     return torch.stack((Z_r, Z_i), dim=-1)
 
+
 @torch.jit.script
 def complex_bmm(X, Y):
     X_r, X_i = [x.squeeze(dim=-1) for x in torch.split(X, 1, dim=-1)]
@@ -30,16 +33,19 @@ def complex_bmm(X, Y):
     Z_i = torch.bmm(X_r, Y_i) + torch.bmm(X_i, Y_r)
     return torch.stack((Z_r, Z_i), dim=-1)
 
+
 @torch.jit.script
 def complex_softmax(X):
     X_r, X_i = [x.squeeze(dim=-1) for x in torch.split(X, 1, dim=-1)]
     return torch.stack((F.softmax(X_r, dim=-1), F.softmax(X_i, dim=-1)), dim=-1)
+
 
 @torch.jit.script
 def transpose_qkv(x, num_heads: int):
     x = x.reshape(x.shape[0], x.shape[1], num_heads, -1, 2)
     x = x.transpose(1, 2)
     return x.reshape(-1, x.shape[2], x.shape[3], 2)
+
 
 @torch.jit.script
 def transpose_output(x, num_heads: int):
@@ -62,11 +68,11 @@ class ComplexDropout(nn.Module):
 
 
 class ComplexGELU(nn.Module):
-    def __init__(self, approximate='none'):
+    def __init__(self, approximate="none"):
         super().__init__()
         self.gelu_r = nn.GELU(approximate)
         self.gelu_i = nn.GELU(approximate)
-    
+
     def forward(self, X):
         return apply_complex_sep(self.gelu_r, self.gelu_i, X)
 
@@ -157,7 +163,15 @@ class ComplexLinear(nn.Module):
 
 
 class ComplexMLP(nn.Module):
-    def __init__(self, in_features, hidden_features=None, out_features=None, act_layer=ComplexGELU, bias=True, dropout=0.):
+    def __init__(
+        self,
+        in_features,
+        hidden_features=None,
+        out_features=None,
+        act_layer=ComplexGELU,
+        bias=True,
+        dropout=0.0,
+    ):
         super().__init__()
         out_features = out_features or in_features
         hidden_features = hidden_features or in_features
@@ -174,6 +188,7 @@ class ComplexMLP(nn.Module):
         x = self.fc2(x)
         x = self.drop2(x)
         return x
+
 
 class ComplexConv3d(nn.Module):
     def __init__(self, input_channels, num_channels, kernel_size, padding, stride=1):
@@ -268,6 +283,7 @@ class ComplexDotProductAttention(nn.Module):
     Key shape: [batch_size, key_value_num, query_key_dim]
     Value shape: [batch_size, key_value_num, value_dim]
     """
+
     def __init__(self, dropout, **kwargs):
         super(ComplexDotProductAttention, self).__init__(**kwargs)
         self.dropout = ComplexDropout(dropout)
