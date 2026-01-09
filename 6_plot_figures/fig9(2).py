@@ -160,7 +160,7 @@ plt.rcParams["font.family"] = font_name
 
 rects1 = ax.bar(
     index + interval + bar_width + left_to_right_interval[0],
-    onlyreal_acc,
+    onlyreal_acc[0],
     bar_width,
     color="#FFFFFF",
     edgecolor=colors[0],
@@ -171,7 +171,7 @@ rects1 = ax.bar(
 
 rects2 = ax.bar(
     index + interval + bar_width + left_to_right_interval[1],
-    mix_acc,
+    mix_acc[0],
     bar_width,
     color="#FFFFFF",
     edgecolor=colors[1],
@@ -182,7 +182,7 @@ rects2 = ax.bar(
 
 rects3 = ax.bar(
     index + interval + bar_width + left_to_right_interval[2],
-    filterssim_acc,
+    filterssim_acc[0],
     bar_width,
     color="#FFFFFF",
     edgecolor=colors[2],
@@ -193,7 +193,7 @@ rects3 = ax.bar(
 
 rects4 = ax.bar(
     index + interval + bar_width + left_to_right_interval[3],
-    filtertrts_acc,
+    filtertrts_acc[0],
     bar_width,
     color="#FFFFFF",
     edgecolor=colors[3],
@@ -204,7 +204,7 @@ rects4 = ax.bar(
 
 rects5 = ax.bar(
     index + interval + bar_width + left_to_right_interval[4],
-    syncheck_acc,
+    syncheck_acc[0],
     bar_width,
     color="#FFFFFF",
     edgecolor=colors[4],
@@ -220,9 +220,9 @@ x = np.linspace(-0.1, 0.7, 100)
 y = onlyreal_acc[0] * np.ones(100)
 ax.plot(x, y, "--", color="000000", marker="None", zorder=10, linewidth=1, alpha=0.8)
 
-x = np.linspace(0.9, 1.7, 100)
-y = onlyreal_acc[1] * np.ones(100)
-ax.plot(x, y, "--", color="000000", marker="None", zorder=10, linewidth=1, alpha=0.8)
+# x = np.linspace(0.9, 1.7, 100)
+# y = onlyreal_acc[1] * np.ones(100)
+# ax.plot(x, y, "--", color="000000", marker="None", zorder=10, linewidth=1, alpha=0.8)
 
 ax.set_ylabel("Accuracy", verticalalignment="bottom", fontsize=18)
 ax.set_xticks(index + interval + bar_width)
