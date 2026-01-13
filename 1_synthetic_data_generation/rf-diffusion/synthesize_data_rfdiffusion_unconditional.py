@@ -89,7 +89,7 @@ if __name__ == '__main__':
     parser.add_argument('--noise_start', type=float, default=1e-4, help='noise level at the beginning of diffusion')
     parser.add_argument('--noise_end', type=float, default=0.003, help='noise level at the end of diffusion')
     # saved restoremodel ckpt
-    parser.add_argument('--ckpt_path', type=str, default='rfdiffusion_checkpoints/trained_ckpt/5-loss0.0099.pth', help='path to saved model ckpt')
+    parser.add_argument('--ckpt_path', type=str, default='rfdiffusion_checkpoints/shuffled_trained_ckpt/3-loss0.0103.pth', help='path to saved model ckpt')
     # synthetic data save directory
     parser.add_argument('--syn_save_dir', type=str, default='syn_data_native_unconditional', help='path to synthetic data directory')
     
