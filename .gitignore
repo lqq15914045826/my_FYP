@@ -9,6 +9,7 @@ settings.json
 *.zip
 *.pth
 *.pt
+*.dat
 *.csv
 *.ckpt
 download_file.ipynb
