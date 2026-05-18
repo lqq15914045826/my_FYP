@@ -15,7 +15,7 @@ font_name = prop.get_name()
 fm.fontManager.addfont(font_path)
 
 colors = ["#084E87", "#ef8a00", "#267226", "#BF3F3F", "#414141", "#282828"]
-save_dir = "images"
+save_dir = "image_CN"
 os.makedirs(save_dir, exist_ok=True)
 sys_name = "SynCheck"
 
